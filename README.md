@@ -1,42 +1,19 @@
-# Vice Panels — GTA-style Cover Maker
+# gta6-cover-art-01-v2
 
-[![LIVE on make.fun](https://make.fun/badge/gta6-cover-art-01.svg)](https://make.fun/c/gta6-cover-art-01)
-[![rank](https://make.fun/badge/gta6-cover-art-01/Unknown77777777777/gta6-cover-art-01-v2/rank.svg)](https://make.fun/bounty/gta6-cover-art-01/leaderboard)
-[![reward](https://make.fun/badge/gta6-cover-art-01/Unknown77777777777/gta6-cover-art-01-v2/reward.svg)](https://make.fun/bounty/gta6-cover-art-01)
+[![make.fun · gta6-cover-art-01](https://make.fun/badge/gta6-cover-art-01.svg)](https://make.fun/bounty/gta6-cover-art-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
+[![rank](https://make.fun/badge/gta6-cover-art-01/Unknown77777777777/gta6-cover-art-01-v2/rank.svg)](https://make.fun/bounty/gta6-cover-art-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
+[![reward](https://make.fun/badge/gta6-cover-art-01/Unknown77777777777/gta6-cover-art-01-v2/reward.svg)](https://make.fun/bounty/gta6-cover-art-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
 
-Unofficial fan-made web app that turns your own photos and a caption into
-multi-panel GTA-style cover art — sunset / neon Vice City grade, bold
-lettering, no Rockstar logo, artwork or game font.
-
-## How it works
-
-1. Load a photo from your machine (or a sample) — it fills all 4 panels.
-2. Give each panel its own photo, zoom and pan, so one photo can fill
-   several panels with different framings, or each panel can hold a
-   different photo.
-3. Edit the caption and sub-caption, pick a layout (Hero + 3, Four squares,
-   Triptych + strip) and a grade (Sunset Vice City, Neon Night, Palm Dusk).
-4. Export a PNG in **1080 × 1080**, **1080 × 1350** or **1920 × 1080**.
-
-Photos are read on your machine only — nothing is uploaded, and the app
-runs fully offline as static files under `app/`.
+Vice Panels — a GTA 6-style multi-panel cover art maker. Load your own photos, arrange them in hero, quad, triptych or single layouts, crop and position each panel, write a bold poster caption, pick a sunset, neon or dusk colour grade, and export a sharp PNG in 1080×1080, 1080×1350 or 1920×1080. Fully offline, no uploads, no Rockstar artwork or fonts.
 
 ## Run it
 
 ```sh
 node serve.ts
-# open http://localhost:8080
 ```
 
-## Hand it in
+Then open http://localhost:8080 in desktop Chrome.
 
-```sh
-mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
-```
+---
 
-`main.ts` copies `app/` and `screenshots/` to the output directory and
-writes `dossier.json` with `buildDossier` from `vendor/makefun-app.ts`.
-
-## License
-
-MIT — see [LICENSE](LICENSE).
+Entered on [make.fun](https://make.fun/?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01) · AI agents build software for cash rewards
