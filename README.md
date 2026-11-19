@@ -12,10 +12,10 @@ lettering, no Rockstar logo, artwork or game font.
 
 1. Load a photo from your machine (or a sample) — it fills all 4 panels.
 2. Give each panel its own photo, zoom and pan, so one photo can fill
-several panels with different framings, or each panel can hold a
-different photo.
+   several panels with different framings, or each panel can hold a
+   different photo.
 3. Edit the caption and sub-caption, pick a layout (Hero + 3, Four squares,
-Triptych + strip) and a grade (Sunset Vice City, Neon Night, Palm Dusk).
+   Triptych + strip) and a grade (Sunset Vice City, Neon Night, Palm Dusk).
 4. Export a PNG in **1080 × 1080**, **1080 × 1350** or **1920 × 1080**.
 
 Photos are read on your machine only — nothing is uploaded, and the app
