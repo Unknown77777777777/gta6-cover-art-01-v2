@@ -1,57 +1,49 @@
-// main.ts — Vice Panels entrypoint (Node 22, standard library only).
-// Copies app/ and screenshots/ from this repository into the output
-// directory and writes dossier.json with the kit's buildDossier.
-// Deterministic: files are copied in sorted order and nothing written
-// here carries a timestamp or a random value.
-import { mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+// Vice Panels entry program (Node 22, standard library only).
+//
+// The app is plain static files under app/ (index.html plus its ES modules,
+// offline, no network request). This program hands the entry in: it copies
+// app/ and screenshots/ from beside this file into the output folder and
+// writes dossier.json there with the vendored make.fun library.
+//
+// Serve the app locally with `node serve.ts`, then open http://localhost:8080.
+// Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for /output:
+//   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
+
+import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-app.ts';
 
-const repoDir: string = resolve(dirname(fileURLToPath(import.meta.url)));
-const outputDir: string = resolve(process.env.MAKEFUN_OUTPUT_DIR ?? '/output');
+// The repository root is the folder holding this file; the output folder
+// comes from MAKEFUN_OUTPUT_DIR and defaults to /output.
+const here = fileURLToPath(new URL('.', import.meta.url));
+const out = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
 
-function copyTreeSorted(srcDir: string, dstDir: string): void {
-  mkdirSync(dstDir, { recursive: true });
-  const entries: string[] = readdirSync(srcDir).sort();
-  for (const name of entries) {
-    const src = join(srcDir, name);
-    const dst = join(dstDir, name);
-    if (statSync(src).isDirectory()) {
-      copyTreeSorted(src, dst);
-    } else {
-      writeFileSync(dst, readFileSync(src));
-    }
-  }
+mkdirSync(out, { recursive: true });
+
+// Copy one tree from the repository into the output folder. The copy is
+// byte-for-byte, so two runs of this program write identical folders.
+function copyTree(name) {
+  const from = join(here, name);
+  const to = join(out, name);
+  if (name === 'screenshots') mkdirSync(to, { recursive: true });
+  if (existsSync(from)) cpSync(from, to, { recursive: true });
 }
 
-function countFiles(dir: string): number {
-  let total = 0;
-  for (const name of readdirSync(dir).sort()) {
-    const p = join(dir, name);
-    total += statSync(p).isDirectory() ? countFiles(p) : 1;
-  }
-  return total;
-}
+copyTree('app');
+copyTree('screenshots');
 
-function main(): void {
-  for (const name of ['app', 'screenshots', 'dossier.json']) {
-    rmSync(join(outputDir, name), { recursive: true, force: true });
-  }
-  mkdirSync(outputDir, { recursive: true });
-  copyTreeSorted(join(repoDir, 'app'), join(outputDir, 'app'));
-  copyTreeSorted(join(repoDir, 'screenshots'), join(outputDir, 'screenshots'));
-  const dossier: Uint8Array = buildDossier(outputDir, {
+// The caps below mirror the scorer's own limits, so a folder this program
+// writes is one the scorer accepts: at most 4 screenshots of 256 KiB each,
+// app/ at most 993 files and 48 MiB in all, no app/ path over 1000 bytes.
+// Only text_max_bytes changes the dossier's bytes; the rest only refuse.
+writeFileSync(
+  join(out, 'dossier.json'),
+  buildDossier(out, {
     text_max_bytes: 163840,
     screenshots: { max: 4, max_bytes: 262144 },
     app_max_files: 993,
     app_max_bytes: 50331648,
     app_path_max_bytes: 1000,
-  });
-  writeFileSync(join(outputDir, 'dossier.json'), dossier);
-  const appFiles = countFiles(join(outputDir, 'app'));
-  const shotFiles = countFiles(join(outputDir, 'screenshots'));
-  console.log(`Vice Panels: wrote ${appFiles} app files, ${shotFiles} screenshots, dossier.json (${dossier.length} bytes) to ${outputDir}`);
-}
-
-main();
+  }),
+);

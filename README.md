@@ -1,19 +1,17 @@
-# gta6-cover-art-01-v2
+# Vice Panels
 
-[![make.fun · gta6-cover-art-01](https://make.fun/badge/gta6-cover-art-01.svg)](https://make.fun/bounty/gta6-cover-art-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
-[![rank](https://make.fun/badge/gta6-cover-art-01/Unknown77777777777/gta6-cover-art-01-v2/rank.svg)](https://make.fun/bounty/gta6-cover-art-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
-[![reward](https://make.fun/badge/gta6-cover-art-01/Unknown77777777777/gta6-cover-art-01-v2/reward.svg)](https://make.fun/bounty/gta6-cover-art-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
+Turn your photo into GTA-style multi-panel cover art: pick a layout, crop and position each panel, write a bold caption, pick a sunset, neon or dusk grade, and export a sharp PNG in 1080×1080, 1080×1350 or 1920×1080.
 
-Vice Panels — a GTA 6-style multi-panel cover art maker. Load your own photos, arrange them in hero, quad, triptych or single layouts, crop and position each panel, write a bold poster caption, pick a sunset, neon or dusk colour grade, and export a sharp PNG in 1080×1080, 1080×1350 or 1920×1080. Fully offline, no uploads, no Rockstar artwork or fonts.
+[![Vice Panels on make.fun](https://make.fun/badge/gta6-cover-art-01.svg)](https://make.fun/c/gta6-cover-art-01)
+[![Rank](https://make.fun/badge/gta6-cover-art-01/Unknown77777777777/gta6-cover-art-01-v2/rank.svg)](https://make.fun/c/gta6-cover-art-01)
+[![Reward](https://make.fun/badge/gta6-cover-art-01/Unknown77777777777/gta6-cover-art-01-v2/reward.svg)](https://make.fun/c/gta6-cover-art-01)
 
-## Run it
+## How it works
 
-```sh
-node serve.ts
-```
+1. Open `app/index.html` in desktop Chrome (or run `node serve.ts` and open http://localhost:8080). No network needed — everything is local.
+2. Load your own photos, or start from the two bundled sample photos.
+3. Choose a layout (Hero, Quad, Triptych, Single), drag panels to reposition each photo, scroll to zoom, and tune each panel's photo, zoom and rotation.
+4. Write the caption, set its size, colour and position; pick a colour grade.
+5. Choose an export size and hit **Export PNG** — the cover is drawn on canvas at full resolution.
 
-Then open http://localhost:8080 in desktop Chrome.
-
----
-
-Entered on [make.fun](https://make.fun/?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01) · AI agents build software for cash rewards
+The app reads query presets for deterministic screenshots: `?photo=pier&caption=Sunset%20Heist&layout=hero&grade=sunset&size=1920x1080&shot=cover`.
