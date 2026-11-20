@@ -4,89 +4,89 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vice Panels — GTA-style cover art maker</title>
-<link rel="icon" href="data:,">
-<link rel="stylesheet" href="./style.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="topbar">
-  <h1>Vice Panels</h1>
-  <p>Your photo, a bold caption, a sunset or neon grade — a multi-panel cover in a few clicks.</p>
+  <div>
+    <h1>VICE PANELS</h1>
+    <p class="tagline">Turn your photos + a caption into poster-style cover art. Offline, on your machine.</p>
+  </div>
+  <p class="offline">No uploads · No network · Original art</p>
 </header>
+
 <main class="editor">
-  <section class="controls" aria-label="Editor controls">
-    <div class="group">
+  <section class="stage-col">
+    <div class="stage-wrap" id="stageWrap">
+      <canvas id="stage" aria-label="Live cover preview"></canvas>
+      <p class="stage-hint">Click a panel to select it · Drag to move the photo · Scroll to zoom</p>
+    </div>
+    <div class="panel-dots" id="panelDots" aria-label="Select panel"></div>
+  </section>
+
+  <aside class="controls">
+    <section class="group">
       <h2>1 · Photos</h2>
-      <label class="file-btn">Choose photos…
-        <input id="photoInput" type="file" accept="image/*" multiple>
-      </label>
-      <div id="library" class="library" aria-label="Loaded photos"></div>
-      <p class="note">Photos stay on your machine. Click a thumbnail to put it in the selected panel.</p>
-    </div>
+      <p id="photoCount" class="muted">No photos yet — add one below.</p>
+      <div class="thumbs" id="thumbs"></div>
+      <div class="row">
+        <button type="button" class="btn" id="addPhotosBtn">Add photos…</button>
+        <input type="file" id="fileInput" accept="image/*" multiple hidden>
+      </div>
+      <div class="row">
+        <button type="button" class="btn ghost" data-sample="boulevard.jpg">Sample · Boulevard</button>
+        <button type="button" class="btn ghost" data-sample="pier.jpg">Sample · Pier</button>
+      </div>
+      <p class="muted small">Or drop image files onto the preview. Photos never leave your machine.</p>
+    </section>
 
-    <div class="group">
+    <section class="group">
       <h2>2 · Layout</h2>
-      <div id="layoutBtns" class="choices">
-        <button type="button" data-value="hero" class="active">Hero</button>
-        <button type="button" data-value="quad">Quad</button>
-        <button type="button" data-value="triptych">Triptych</button>
-        <button type="button" data-value="single">Single</button>
-      </div>
-    </div>
+      <div class="choices" id="layoutChoices"></div>
+    </section>
 
-    <div class="group">
-      <h2>3 · Colour grade</h2>
-      <div id="gradeBtns" class="choices">
-        <button type="button" data-value="sunset" class="active">Sunset</button>
-        <button type="button" data-value="neon">Neon</button>
-        <button type="button" data-value="dusk">Dusk</button>
-      </div>
-    </div>
-
-    <div class="group">
-      <h2>4 · Caption</h2>
-      <label>Caption
-        <input id="captionInput" type="text" maxlength="40" value="Sunset Heist">
+    <section class="group">
+      <h2>3 · Selected panel</h2>
+      <label class="field">Photo in this panel
+        <select id="panelPhoto"></select>
       </label>
-      <label>Size <span id="captionSizeValue">96px</span>
-        <input id="captionSize" type="range" min="48" max="180" step="2" value="96">
+      <label class="field">Zoom · <span id="zoomLabel">100%</span>
+        <input type="range" id="zoomRange" min="60" max="400" value="100">
       </label>
       <div class="row">
-        <label>Colour <input id="captionColor" type="color" value="#ffffff"></label>
-        <label>Position
-          <select id="captionPos">
-            <option value="top">Top</option>
-            <option value="middle">Middle</option>
-            <option value="bottom" selected>Bottom</option>
-          </select>
-        </label>
+        <button type="button" class="btn ghost" id="fitBtn">Centre photo</button>
+        <button type="button" class="btn ghost" id="clearBtn">Empty panel</button>
       </div>
-    </div>
+    </section>
 
-    <div class="group">
-      <h2>5 · Panels</h2>
-      <p class="note">Click a panel in the preview to select it. Drag to move its photo, scroll to zoom.</p>
-      <div id="panelControls"></div>
-    </div>
-
-    <div class="group">
-      <h2>6 · Export</h2>
-      <label>Size
-        <select id="exportSize">
-          <option value="1080x1080">1080 × 1080 (square)</option>
-          <option value="1080x1350">1080 × 1350 (portrait)</option>
-          <option value="1920x1080" selected>1920 × 1080 (landscape)</option>
-        </select>
+    <section class="group">
+      <h2>4 · Caption</h2>
+      <label class="field">Title
+        <input type="text" id="titleInput" value="SUNSET DRIVE" maxlength="40" autocomplete="off">
       </label>
-      <button id="exportBtn" type="button" class="export">Export PNG</button>
-      <p id="status" role="status"></p>
-    </div>
-  </section>
+      <label class="field">Subtitle
+        <input type="text" id="subtitleInput" value="BOULEVARD NIGHTS" maxlength="60" autocomplete="off">
+      </label>
+      <div class="choices" id="titleStyleChoices"></div>
+    </section>
 
-  <section class="stage" aria-label="Live preview">
-    <canvas id="preview" width="960" height="540"></canvas>
-    <p class="hint">Drag a panel to move its photo · scroll to zoom · click a panel to select it</p>
-  </section>
+    <section class="group">
+      <h2>5 · Colour grade</h2>
+      <div class="choices" id="gradeChoices"></div>
+    </section>
+
+    <section class="group">
+      <h2>6 · Export PNG</h2>
+      <div class="exports" id="exportButtons"></div>
+      <p class="muted small" id="exportNote">Pick a size — the PNG downloads straight away.</p>
+    </section>
+  </aside>
 </main>
-<script type="module" src="./src/main.js"></script>
+
+<footer class="foot">
+  <p>Vice Panels is an original cover maker. It contains no Rockstar Games logo, artwork, character or font. Lettering is drawn with system fonts; sample photos were made with an image model for make.fun.</p>
+</footer>
+
+<script type="module" src="src/main.js"></script>
 </body>
 </html>
